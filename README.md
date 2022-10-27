@@ -1,0 +1,1 @@
+# Earthquake-notification-and-evacuation-guide-software
