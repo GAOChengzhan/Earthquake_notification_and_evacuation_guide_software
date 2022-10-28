@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+  <style type="text/css">
+    body, html {width: 100%;height: 100%;margin:0;font-family:"å¾®è½¯é›…é»‘";}
+    #allmap{width:100%;height:100%;}
+    p{margin-left:5px; font-size:14px;}
+  </style>
+  <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=5H81a8zEwctwf081w60uwCbt0ZktgwL2"></script>
+  <title>æ·»åŠ å®šä½ç›¸å…³æ§ä»¶</title>
+</head>
+<body>
+  <div id="allmap"></div>
+<div id="lng" style="display:none"></div>
+<div id="lat" style="display:none"></div>
+</body>
+</html>
+<script type="text/javascript">
+
+	var map = new BMap.Map("allmap");
+	map.centerAndZoom(new BMap.Point(116.404, 39.915), 4);
+
+    map.addControl(new BMap.ScaleControl()); //Ìí¼Ó±ÈÀı³ß¿Ø¼ş(×óÏÂ½ÇÏÔÊ¾µÄ±ÈÀı³ß¿Ø¼ş)
+
+    map.addControl(new BMap.OverviewMapControl());// ËõÂÔÍ¼¿Ø¼ş
+
+    var ctrl_nav = new BMap.NavigationControl({ anchor: BMAP_ANCHOR_TOP_LEFT, type: BMAP_NAVIGATION_CONTROL_LARGE }); 
+
+    map.addControl(ctrl_nav);//Ìí¼Ó±ê×¼µØÍ¼¿Ø¼ş(×óÉÏ½ÇµÄ·Å´óËõĞ¡×óÓÒÍÏ×§¿Ø¼ş)
+
+
+
+    map.enableDragging(); //ÆôÓÃµØÍ¼ÍÏ×§ÊÂ¼ş£¬Ä¬ÈÏÆôÓÃ(¿É²»Ğ´)
+
+    map.enableScrollWheelZoom(); //ÆôÓÃµØÍ¼¹öÂÖ·Å´óËõĞ¡
+
+    map.enableDoubleClickZoom(); //ÆôÓÃÊó±êË«»÷·Å´ó£¬Ä¬ÈÏÆôÓÃ(¿É²»Ğ´)
+
+    map.enableKeyboard(); //ÆôÓÃ¼üÅÌÉÏÏÂ×óÓÒ¼üÒÆ¶¯µØÍ¼ 
+
+    map.enableContinuousZoom();   // ¿ªÆôÁ¬ĞøËõ·ÅĞ§¹û  
+
+    map.enableInertialDragging(); // ¿ªÆô¹ßĞÔÍÏ×§Ğ§¹û  
+
+  
+
+  var geolocationControl = new BMap.GeolocationControl();
+  geolocationControl.addEventListener("locationSuccess", function(e){
+    // å®šä½æˆåŠŸäº‹ä»¶
+    var address = '';
+    address += e.addressComponent.province;
+    address += e.addressComponent.city;
+    address += e.addressComponent.district;
+    address += e.addressComponent.street;
+    address += e.addressComponent.streetNumber;
+    alert("å½“å‰å®šä½åœ°å€ä¸ºï¼š" + address);
+  });
+  geolocationControl.addEventListener("locationError",function(e){
+    // å®šä½å¤±è´¥äº‹ä»¶
+    alert(e.message);
+  });
+  map.addControl(geolocationControl);
+  
+
+
+
+    //ÊµÊ±ÏÔÊ¾µØÍ¼×ø±ê end
+
+
+
+   //²âÁ¿¾àÀë strat
+
+    function openGetDistance() {  
+
+     var myDis=new BMapLib.DistanceTool(map);//mapÎªÉÏÃæÒÑ¾­³õÊ¼»¯ºÃµÄµØÍ¼ÊµÀı  
+
+     myDis.open();  
+
+    }
+
+    //²âÁ¿¾àÀë end
+
+
+
+
+
+    //×óÓÒ»÷Êó±ê¸øµØÍ¼ÉÏ·Åmarker strat ·Å±ê×¢
+
+    var marker_num = 0;
+
+    var isAddListen = -1;
+
+    function PutInMarker() {
+
+        //ÓÒ¼ü±ê¼Ç
+
+        if (isAddListen == -1) {
+
+            //kÌí¼ÓÓÒ¼üµã»÷µÄ¼àÌıÊÂ¼ş
+
+            map.addEventListener("rightclick", putmarker);
+
+            isAddListen = 0;
+
+        }
+
+    }
+
+
+
+    var g_rightP = new BMap.Point(0, 0);
+
+    function putmarker(e)
+
+    {
+
+        //·Å±ê×¢  
+
+        var p1 = new BMap.Point(e.point.lng, e.point.lat);
+
+        g_rightP = p1;
+
+        var myIcon = new BMap.Icon("car.png", new BMap.Size(24, 24));
+
+        var marker = new BMap.Marker(p1, { icon: myIcon });  // ´´½¨±ê×¢
+
+        map.addOverlay(marker);              // ½«±ê×¢Ìí¼Óµ½µØÍ¼ÖĞ 
+
+
+
+        marker_num++;//±ê×¢Ë÷Òı£¬Õâ¸öÊÇ¸öÈ«¾Ö±äÁ¿  
+
+        var whichCar = window.external.setWhichCar(marker_num);  
+
+        var label=new BMap.Label(whichCar+"ºÅ-×ø±ê"+marker_num+":"+  
+
+        "("+e.point.lng+","+e.point.lat+")",{offset:new BMap.Size(20,-10)});  
+
+        marker.setLabel(label);  
+
+    }
+
+    //×óÓÒ»÷Êó±ê¸øµØÍ¼ÉÏ·Åmarker end
+
+
+
+
+
+    //Çå³ıËùÓĞ±ê×¢ start
+
+    function ClearAllMarkers() {
+
+        map.clearOverlays();
+
+        marker_num = 0;
+
+        isAddListen = -1;
+
+    }
+
+    //Çå³ıËùÓĞ±ê×¢ end
+
+
+
+
+
+
+
+    //¹Ø±Õ¼àÌıÊÂ¼ş£¬»Ö¸´¶ÔµØÍ¼µÄ²Ù×÷ start
+
+    function CloseListener() {
+
+        map.removeEventListener("rightclick", putmarker);
+
+    }
+
+    //¹Ø±Õ¼àÌıÊÂ¼ş£¬»Ö¸´¶ÔµØÍ¼µÄ²Ù×÷ end
+
+
+
+    //×ø±ê·´²é start
+
+    function FindPosition(CurLng, CurLat) {
+
+        //°Ù¶ÈµØÍ¼API¹¦ÄÜ£¬¾­¶È£¬Î³¶È
+
+        var point = new BMap.Point(CurLng, CurLat);
+
+        map.centerAndZoom(point, 20);
+
+    }
+
+    //×ø±ê·´²é end
+
+
+
+    //»ñÈ¡²âÊÔ×ø±ê start
+
+    var Lng = 116.380960
+
+    var Lat = 39.913280
+
+    function GetTestGPS(CurLng, CurLat) {
+
+        //°Ù¶ÈµØÍ¼API¹¦ÄÜ£¬¾­¶È£¬Î³¶È
+
+        var point = new BMap.Point(CurLng, CurLat);
+
+        map.centerAndZoom(point, 20);
+
+        window.external.LocateInfo(text);
+
+        return Lng;
+
+    }
+
+    //»ñÈ¡²âÊÔ×ø±ê end
+
+
+
+    //»ñÈ¡²âÊÔ×ø±êÊı×é2 start
+
+    function GetTest2GPS() {
+
+        var text = '{"Point":[{"x":"116.380960","y":"39.913280"},{"x":"116.380961","y":"39.913281"},{"x":"116.380962","y":"39.913282"},{"x":"116.380963","y":"39.913283"}]}'
+
+        window.external.LocateInfo(text);
+
+        return text;
+
+    }
+
+    //»ñÈ¡²âÊÔ×ø±ê end
+	function myTimer(JinDu, WeiDu, str)	
+{	
+    var BaiDuPoint = new BMap.Point(JinDu, WeiDu);   
+    map.centerAndZoom(BaiDuPoint, 17); //ÉèÖÃÖĞĞÄµãºÍÏÔÊ¾µÈ¼¶		
+    var marker = new BMap.Marker(BaiDuPoint);		
+    map.addOverlay(marker);		
+    //map.openInfoWindow(infoWindow, BaiDuPoint); //´ò¿ªĞÅÏ¢´°¿Ú		
+    //map.setCenter(BaiDuPoint); //ÒÔµ±Ç°µÄ×ø±êµãÎªÖĞĞÄÏÔÊ¾
+	var label = new BMap.Label(str,{offset:new BMap.Size(20,-10)});
+	marker.setLabel(label);
+}
+	function addmarkerinfo(jingdu,weidu,wenzi)
+{
+	var point = new BMap.Point(jingdu , weidu);
+	var marker = new BMap.Marker(point);  // åˆ›å»ºæ ‡æ³¨
+	var content = wenzi;
+	map.addOverlay(marker);               // å°†æ ‡æ³¨æ·»åŠ åˆ°åœ°å›¾ä¸­
+	addClickHandler(content,marker);  
+
+}
+
+
+function addClickHandler(content,marker){
+		marker.addEventListener("click",function(e){
+			openInfo(content,e)}
+		);
+	}
+	function openInfo(content,e){
+		var p = e.target;
+		var opts = {
+				width : 250,     // ä¿¡æ¯çª—å£å®½åº¦
+				height: 100,     // ä¿¡æ¯çª—å£é«˜åº¦
+				title : "ä¿¡æ¯çª—å£" , // ä¿¡æ¯çª—å£æ ‡é¢˜
+				enableMessage:true//è®¾ç½®å…è®¸ä¿¡æ¯çª—å‘é€çŸ­æ¯
+			   };
+		var point = new BMap.Point(p.getPosition().lng, p.getPosition().lat);
+		var infoWindow = new BMap.InfoWindow(content,opts);  // åˆ›å»ºä¿¡æ¯çª—å£å¯¹è±¡ 
+		map.openInfoWindow(infoWindow,point); //å¼€å¯ä¿¡æ¯çª—å£
+	}
+function getlocation()
+{var geolocation = new BMap.Geolocation();
+	geolocation.getCurrentPosition(function(r){
+		if(this.getStatus() == BMAP_STATUS_SUCCESS){
+			//var pt = new BMap.Point(116.417, 39.909);
+			var myIcon = new BMap.Icon("http://lbsyun.baidu.com/jsdemo/img/fox.gif", new BMap.Size(300,157));
+			var markerspe = new BMap.Marker(r.point,{icon:myIcon});  // åˆ›å»ºæ ‡æ³¨
+			map.addOverlay(markerspe);              // å°†æ ‡æ³¨æ·»åŠ åˆ°åœ°å›¾ä¸­
+			var mk = new BMap.Marker(r.point);
+			map.addOverlay(mk);
+			mk.setAnimation(BMAP_ANIMATION_BOUNCE);
+			map.panTo(r.point);
+			alert('æ‚¨çš„ä½ç½®ï¼š'+r.point.lng+','+r.point.lat);
+            document.getElementById("lng").innerText = r.point.lng;
+            document.getElementById("lat").innerText = r.point.lat;
+			lnginfo=r.point.lng.toString();
+			latinfo=r.point.lat.toString();
+			window.external.Lnginfo(lnginfo);
+			window.external.Latinfo(latinfo);
+		}
+		else {
+			alert('failed'+this.getStatus());
+		}        
+	},{enableHighAccuracy: true})
+
+	}
+function findemergency(x1,y1,x2,y2){
+	var p1 = new BMap.Point(x1,y1);
+	var p2 = new BMap.Point(x2,y2);
+	var walking = new BMap.WalkingRoute(map, {renderOptions: {map: map, panel: "r-result", autoViewport: true}});
+    walking.search(p1, p2);
+}
+</script>
