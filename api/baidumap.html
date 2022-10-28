@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
     <title>Hello Map</title> 
     <script type="text/javascript"src="http://api.map.baidu.com/api?key=59db371659c04947a1ff044e80565718&v=1.4&services=true"></script>  
-    <!--¼ÓÔØÊó±ê²â¾à¹¤¾ß-->
+    <!--åŠ è½½é¼ æ ‡æµ‹è·å·¥å…·-->
     <script src="DistanceTool_min.js" type="text/javascript"></script>
 </head>
 <body> 
@@ -17,17 +17,17 @@
 <script type="text/javascript">
     var map = new BMap.Map("container");
     map.centerAndZoom(new BMap.Point(108.876433, 36.269395), 5);
-    map.addControl(new BMap.ScaleControl()); //Ìí¼Ó±ÈÀı³ß¿Ø¼ş(×óÏÂ½ÇÏÔÊ¾µÄ±ÈÀı³ß¿Ø¼ş)
-    map.addControl(new BMap.OverviewMapControl());// ËõÂÔÍ¼¿Ø¼ş
+    map.addControl(new BMap.ScaleControl()); //æ·»åŠ æ¯”ä¾‹å°ºæ§ä»¶(å·¦ä¸‹è§’æ˜¾ç¤ºçš„æ¯”ä¾‹å°ºæ§ä»¶)
+    map.addControl(new BMap.OverviewMapControl());// ç¼©ç•¥å›¾æ§ä»¶
     var ctrl_nav = new BMap.NavigationControl({ anchor: BMAP_ANCHOR_TOP_LEFT, type: BMAP_NAVIGATION_CONTROL_LARGE }); 
-    map.addControl(ctrl_nav);//Ìí¼Ó±ê×¼µØÍ¼¿Ø¼ş(×óÉÏ½ÇµÄ·Å´óËõĞ¡×óÓÒÍÏ×§¿Ø¼ş)
-    map.enableDragging(); //ÆôÓÃµØÍ¼ÍÏ×§ÊÂ¼ş£¬Ä¬ÈÏÆôÓÃ(¿É²»Ğ´)
-    map.enableScrollWheelZoom(); //ÆôÓÃµØÍ¼¹öÂÖ·Å´óËõĞ¡
-    map.enableDoubleClickZoom(); //ÆôÓÃÊó±êË«»÷·Å´ó£¬Ä¬ÈÏÆôÓÃ(¿É²»Ğ´)
-    map.enableKeyboard(); //ÆôÓÃ¼üÅÌÉÏÏÂ×óÓÒ¼üÒÆ¶¯µØÍ¼ 
-    map.enableContinuousZoom();   // ¿ªÆôÁ¬ĞøËõ·ÅĞ§¹û  
-    map.enableInertialDragging(); // ¿ªÆô¹ßĞÔÍÏ×§Ğ§¹û  
-  //ÊµÊ±ÏÔÊ¾µØÍ¼×ø±ê strat
+    map.addControl(ctrl_nav);//æ·»åŠ æ ‡å‡†åœ°å›¾æ§ä»¶(å·¦ä¸Šè§’çš„æ”¾å¤§ç¼©å°å·¦å³æ‹–æ‹½æ§ä»¶)
+    map.enableDragging(); //å¯ç”¨åœ°å›¾æ‹–æ‹½äº‹ä»¶ï¼Œé»˜è®¤å¯ç”¨(å¯ä¸å†™)
+    map.enableScrollWheelZoom(); //å¯ç”¨åœ°å›¾æ»šè½®æ”¾å¤§ç¼©å°
+    map.enableDoubleClickZoom(); //å¯ç”¨é¼ æ ‡åŒå‡»æ”¾å¤§ï¼Œé»˜è®¤å¯ç”¨(å¯ä¸å†™)
+    map.enableKeyboard(); //å¯ç”¨é”®ç›˜ä¸Šä¸‹å·¦å³é”®ç§»åŠ¨åœ°å›¾ 
+    map.enableContinuousZoom();   // å¼€å¯è¿ç»­ç¼©æ”¾æ•ˆæœ  
+    map.enableInertialDragging(); // å¼€å¯æƒ¯æ€§æ‹–æ‹½æ•ˆæœ  
+  //å®æ—¶æ˜¾ç¤ºåœ°å›¾åæ ‡ strat
     map.addEventListener("mousemove",GetlngAndlat);     
  function GetlngAndlat(e) {
     if(e.point.lng!=null)  
@@ -36,20 +36,20 @@
       document.getElementById("mouselat").innerHTML=e.point.lat;  
      }
 }
-    //ÊµÊ±ÏÔÊ¾µØÍ¼×ø±ê end
-   //²âÁ¿¾àÀë strat
+    //å®æ—¶æ˜¾ç¤ºåœ°å›¾åæ ‡ end
+   //æµ‹é‡è·ç¦» strat
 function openGetDistance() {  
-     var myDis=new BMapLib.DistanceTool(map);//mapÎªÉÏÃæÒÑ¾­³õÊ¼»¯ºÃµÄµØÍ¼ÊµÀı  
+     var myDis=new BMapLib.DistanceTool(map);//mapä¸ºä¸Šé¢å·²ç»åˆå§‹åŒ–å¥½çš„åœ°å›¾å®ä¾‹  
      myDis.open();  
     }
-    //²âÁ¿¾àÀë end
-    //×óÓÒ»÷Êó±ê¸øµØÍ¼ÉÏ·Åmarker strat ·Å±ê×¢
+    //æµ‹é‡è·ç¦» end
+    //å·¦å³å‡»é¼ æ ‡ç»™åœ°å›¾ä¸Šæ”¾marker strat æ”¾æ ‡æ³¨
     var marker_num = 0;
     var isAddListen = -1;
 function PutInMarker() {
-        //ÓÒ¼ü±ê¼Ç
+        //å³é”®æ ‡è®°
         if (isAddListen == -1) {
-            //kÌí¼ÓÓÒ¼üµã»÷µÄ¼àÌıÊÂ¼ş
+            //kæ·»åŠ å³é”®ç‚¹å‡»çš„ç›‘å¬äº‹ä»¶
             map.addEventListener("rightclick", putmarker);
             isAddListen = 0;
         }
@@ -57,56 +57,56 @@ function PutInMarker() {
     var g_rightP = new BMap.Point(0, 0);
 function putmarker(e)
     {
-        //·Å±ê×¢  
+        //æ”¾æ ‡æ³¨  
         var p1 = new BMap.Point(e.point.lng, e.point.lat);
         g_rightP = p1;
         var myIcon = new BMap.Icon("car.png", new BMap.Size(24, 24));
-        var marker = new BMap.Marker(p1, { icon: myIcon });  // ´´½¨±ê×¢
-        map.addOverlay(marker);              // ½«±ê×¢Ìí¼Óµ½µØÍ¼ÖĞ 
-        marker_num++;//±ê×¢Ë÷Òı£¬Õâ¸öÊÇ¸öÈ«¾Ö±äÁ¿  
+        var marker = new BMap.Marker(p1, { icon: myIcon });  // åˆ›å»ºæ ‡æ³¨
+        map.addOverlay(marker);              // å°†æ ‡æ³¨æ·»åŠ åˆ°åœ°å›¾ä¸­ 
+        marker_num++;//æ ‡æ³¨ç´¢å¼•ï¼Œè¿™ä¸ªæ˜¯ä¸ªå…¨å±€å˜é‡  
         var whichCar = window.external.setWhichCar(marker_num);  
-        var label=new BMap.Label(whichCar+"ºÅ-×ø±ê"+marker_num+":"+  
+        var label=new BMap.Label(whichCar+"å·-åæ ‡"+marker_num+":"+  
         "("+e.point.lng+","+e.point.lat+")",{offset:new BMap.Size(20,-10)});  
         marker.setLabel(label);  
     }
-    //×óÓÒ»÷Êó±ê¸øµØÍ¼ÉÏ·Åmarker end
-    //Çå³ıËùÓĞ±ê×¢ start
+    //å·¦å³å‡»é¼ æ ‡ç»™åœ°å›¾ä¸Šæ”¾marker end
+    //æ¸…é™¤æ‰€æœ‰æ ‡æ³¨ start
 
 function ClearAllMarkers() {
         map.clearOverlays();
         marker_num = 0;
         isAddListen = -1;
     }
-    //Çå³ıËùÓĞ±ê×¢ end
-    //¹Ø±Õ¼àÌıÊÂ¼ş£¬»Ö¸´¶ÔµØÍ¼µÄ²Ù×÷ start
+    //æ¸…é™¤æ‰€æœ‰æ ‡æ³¨ end
+    //å…³é—­ç›‘å¬äº‹ä»¶ï¼Œæ¢å¤å¯¹åœ°å›¾çš„æ“ä½œ start
 function CloseListener() {
         map.removeEventListener("rightclick", putmarker);
     }
-    //¹Ø±Õ¼àÌıÊÂ¼ş£¬»Ö¸´¶ÔµØÍ¼µÄ²Ù×÷ end
-    //×ø±ê·´²é start
+    //å…³é—­ç›‘å¬äº‹ä»¶ï¼Œæ¢å¤å¯¹åœ°å›¾çš„æ“ä½œ end
+    //åæ ‡åæŸ¥ start
 function FindPosition(CurLng, CurLat) {
-        //°Ù¶ÈµØÍ¼API¹¦ÄÜ£¬¾­¶È£¬Î³
+        //ç™¾åº¦åœ°å›¾APIåŠŸèƒ½ï¼Œç»åº¦ï¼Œçº¬
         var point = new BMap.Point(CurLng, CurLat);
         map.centerAndZoom(point, 20);
     }
-    //×ø±ê·´²é end
-    //»ñÈ¡²âÊÔ×ø±ê start
+    //åæ ‡åæŸ¥ end
+    //è·å–æµ‹è¯•åæ ‡ start
     var Lng = 116.380960
     var Lat = 39.913280
 
 function GetTestGPS(CurLng, CurLat) {
-        //°Ù¶ÈµØÍ¼API¹¦ÄÜ£¬¾­¶È£¬Î³¶È
+        //ç™¾åº¦åœ°å›¾APIåŠŸèƒ½ï¼Œç»åº¦ï¼Œçº¬åº¦
         var point = new BMap.Point(CurLng, CurLat);
         map.centerAndZoom(point, 20);
         window.external.LocateInfo(text);
         return Lng;
     }
-    //»ñÈ¡²âÊÔ×ø±ê end
-    //»ñÈ¡²âÊÔ×ø±êÊı×é2 start
+    //è·å–æµ‹è¯•åæ ‡ end
+    //è·å–æµ‹è¯•åæ ‡æ•°ç»„2 start
 function GetTest2GPS() {
        var text = '{"Point":[{"x":"116.380960","y":"39.913280"},{"x":"116.380961","y":"39.913281"},{"x":"116.380962","y":"39.913282"},{"x":"116.380963","y":"39.913283"}]}'
         window.external.LocateInfo(text);
         return text;
     }
-    //»ñÈ¡²âÊÔ×ø±ê end
+    //è·å–æµ‹è¯•åæ ‡ end
 </script>
